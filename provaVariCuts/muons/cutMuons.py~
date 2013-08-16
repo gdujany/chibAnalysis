@@ -1,0 +1,80 @@
+#!/usr/bin/python
+from ROOT import gSystem, gROOT, gStyle, TFile, TTree, TH1, TH1D, TCanvas, THStack
+import ROOT, sys, getopt, math
+sys.path.append('../..')
+from pyUtils import *
+
+rootupla_gen_1 = '../../../store/GenParticles_ChiB_1P_1_Upsilon2SPt.root'
+rootupla_gen_2 = '../../../store/GenParticles_ChiB_1P_2_Upsilon2SPt.root'
+
+outputFile_name = 'cutMuons'
+
+cuts = Cuts()
+cuts = cuts.loadFromFile("../../cuts.txt")
+
+rootupla = rootupla_gen_1
+
+
+histos = dict()
+histosAll = dict()
+
+histos['mu_pt'] = TH1D('mu_pt', 'Upsilon cuts;p_{T}(#mu);',60, 0, 30)
+histos['mu_eta'] = TH1D('mu_eta', 'Upsilon cuts;#eta(#mu);',50, -2.5, 2.5)
+
+histosAll['mu_pt'] = TH1D('all_mu_pt', 'All;p_{T}(#mu);',60, 0, 30)
+histosAll['mu_eta'] = TH1D('all_mu_eta', 'All;#eta(#mu);',50, -2.5, 2.5)
+
+titles = dict( mu_pt = ';p_{T}(#mu);',
+               mu_eta = ';#eta(#mu);')
+
+
+in_file = TFile.Open(rootupla,'READ')
+tree = TTree()
+in_file.GetObject('rootuple/GenParticlesTree', tree)
+
+cont = 0
+for event in tree:
+    if cont == 10000:
+        break
+    histosAll['mu_pt'].Fill(event.muP_p4.Pt())
+    histosAll['mu_pt'].Fill(event.muM_p4.Pt())
+    histosAll['mu_eta'].Fill(event.muP_p4.Eta())
+    histosAll['mu_eta'].Fill(event.muM_p4.Eta())
+    if event.Upsilon_pt > cuts.upsilon_pt_lcut and event.Upsilon_pt < cuts.upsilon_pt_hcut and abs(event.photon_eta) < cuts.photon_eta_cut and abs(event.Upsilon_rapidity) < cuts.upsilon_rapidity_cut:
+        histos['mu_pt'].Fill(event.muP_p4.Pt())
+        histos['mu_pt'].Fill(event.muM_p4.Pt())
+        histos['mu_eta'].Fill(event.muP_p4.Eta())
+        histos['mu_eta'].Fill(event.muM_p4.Eta())
+        cont += 1
+
+for histo in histosAll.values()+histos.values():
+    histo.Scale(1./histo.Integral())
+
+for histo in histos.values():
+    histo.SetLineColor(ROOT.kBlue)
+    histo.SetLineWidth(2)
+    histo.SetMarkerColor(ROOT.kBlue)
+    histo.SetMarkerStyle(20)
+    
+for histo in histosAll.values():
+    histo.SetLineColor(ROOT.kRed)
+    histo.SetLineWidth(2)
+    histo.SetMarkerColor(ROOT.kRed)
+    histo.SetMarkerStyle(21)
+
+
+
+canvas=TCanvas("canvas","canvas")
+canvas.Print(outputFile_name+".ps[") #apre file .ps
+for key in histos.keys():
+    hs = THStack('hs', titles[key])
+    hs.Add(histos[key])
+    hs.Add(histosAll[key])
+    hs.Draw('nostack')
+    leg = canvas.BuildLegend(.65,.93,.95,.7)
+    leg.SetFillStyle(0)
+    leg.SetBorderSize(0)
+    leg.Draw("SAME")
+    canvas.Update()
+    canvas.Print(outputFile_name+'.ps')
+canvas.Print(outputFile_name+".ps]") #chiude file .ps

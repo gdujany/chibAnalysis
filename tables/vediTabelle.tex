@@ -1,0 +1,123 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{geometry}
+\geometry{a4paper,tmargin=4cm,bmargin=3cm,lmargin=0.8 cm,rmargin=0.8 cm,heightrounded}
+%\recomputelengths
+\title{Tabelle Efficienza}
+\author{Giulio Dujany}
+\date{} 
+
+\begin{document}
+
+ \section*{Efficiency ratios}
+
+\subsection*{$p_T$ spectrum $\Upsilon$(1S)}
+\subsubsection{Default}
+\input{efficiencies_Upsilon2SPt_1S}
+% \subsubsection{X method different weights for MC}
+% \input{efficiencies_Upsilon2SPt_1S_x}
+% \subsubsection{X method same weights for MC}
+% \input{efficiencies_Upsilon2SPt_1S_xMC}
+% \subsubsection{X method weighted with data}
+% \input{efficiencies_Upsilon2SPt_1S_xSignal}
+
+\subsection*{$p_T$ spectrum $\Upsilon$(2S)}
+\subsubsection{Default}
+\input{efficiencies_Upsilon2SPt_2S}
+\subsubsection{X method different weights for MC}
+\input{efficiencies_Upsilon2SPt_2S_x}
+\subsubsection{X method same weights for MC}
+\input{efficiencies_Upsilon2SPt_2S_xMC}
+\subsubsection{X method weighted with data}
+\input{efficiencies_Upsilon2SPt_2S_xSignal}
+
+\subsection*{$p_T$ spectrum $\Upsilon$(3S)}
+\subsubsection{Default}
+\input{efficiencies_Upsilon2SPt_3S}
+% \subsubsection{X method different weights for MC}
+% \input{efficiencies_Upsilon2SPt_3S_x}
+% \subsubsection{X method same weights for MC}
+% \input{efficiencies_Upsilon2SPt_3S_xMC}
+% \subsubsection{X method weighted with data}
+% \input{efficiencies_Upsilon2SPt_3S_xSignal}
+
+
+% \subsection*{New X method with Signal}
+% Errori totalmente a caso
+% \input{efficiencies_x}
+
+% \subsection*{New X method with MC}
+% Errori totalmente a caso
+% \input{efficiencies_Upsilon3SPt_x}
+
+\subsection*{$p_T$ spectrum: $\chi_{b1}$: $\Upsilon$(1S), $\chi_{b2}$: $\Upsilon$(2S)}
+\input{efficiencies_1S_2S}
+
+\subsection*{$p_T$ spectrum: $\chi_{b1}$: $\Upsilon$(2S), $\chi_{b2}$: $\Upsilon$(3S)}
+\input{efficiencies_2S_3S}
+
+% \subsection*{$p_T$ spectrum flat}
+% \input{efficiencies_FlatPt}
+
+
+\section*{Ratios
+  ($\epsilon_1/\epsilon_2$)/($\epsilon_1^{\mbox{Unpolarized}}/\epsilon_2^{\mbox{Unpolarized}}$)
+  in different polarization scenarios}
+
+\vspace{2 em}
+
+
+\subsection*{Polarization in the Helicity frame}
+{\footnotesize
+\input{ratio_efficiencies_hx}
+}
+\vspace{3 em}
+
+\subsection*{Polarization in the Collins Soper frame}
+{\footnotesize
+\input{ratio_efficiencies_cs}
+}
+\section*{Systematic uncertainties}
+
+\subsection*{Refit}
+\input{sistematici_refit}
+
+\subsection*{VariaFunz}
+\input{variaFunz_refit}
+
+
+\section*{Parameters DSCB}
+
+\subsection*{Refit}
+\input{chibParameters_refit}
+
+% \subsection*{qValue}
+% \input{chibParameters_qValue}
+
+\section*{Ratio of the yields}
+
+\subsection*{Refit}
+\input{N21_refit}
+
+% \subsection*{qValue}
+% \input{N21_qValue}
+
+
+\section*{Cross sections Ratios per BR fraction}
+
+\subsection*{Refit}
+\input{R_refit}
+
+% \subsection*{qValue}
+% \input{R_qValue}
+
+
+\section*{Cross sections Ratios}
+
+\subsection*{Refit}
+\input{rcs_refit}
+
+% \subsection*{qValue}
+% \input{rcs_qValue}
+\end{document}
