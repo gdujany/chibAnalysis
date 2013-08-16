@@ -2,3 +2,7 @@
 
 *~
 *.pyc
+
+# Compiled library has to be compiled according to python and ROOT version
+My_double_CB/My_double_CB_cxx.d
+My_double_CB/My_double_CB_cxx.so
