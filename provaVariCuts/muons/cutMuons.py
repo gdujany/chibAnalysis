@@ -1,6 +1,6 @@
 #!/usr/bin/python
 from __future__ import division
-from ROOT import gSystem, gROOT, gStyle, TFile, TTree, TH1, TH1D, TCanvas, THStack
+from ROOT import gSystem, gROOT, gStyle, TFile, TTree, TH1, TH1D,TH2D, TCanvas, THStack
 import ROOT, sys, getopt, math
 sys.path.append('../..')
 sys.path.append('../../Polarization')
@@ -63,12 +63,14 @@ def makePlots():
     histos_chib2['mu_pt'] = TH1D('mu_pt_chib2', '#chi_{b2};p_{T}(#mu);',60, 0, 30)
     histos_chib2['mu_eta'] = TH1D('mu_eta_chib2', '#chi_{b2};#eta(#mu);',60, -3, 3)
 
+    h2D_chib1 = TH2D('pt_vs_eta_chib1', '#chi_{b1};#eta(#mu);p_{T}(#mu)',60, -3, 3, 60, 0, 30)
+    h2D_chib2 = TH2D('pt_vs_eta_chib2', '#chi_{b2};#eta(#mu);p_{T}(#mu)',60, -3, 3, 60, 0, 30)
 
     titles = dict( mu_pt = ';p_{T}(#mu);',
                    mu_eta = ';#eta(#mu);')
 
 
-    def fillHistos(chib_state, histos):
+    def fillHistos(chib_state, histos, h2D):
         rootupla = rootupla_gen_1 if chib_state == 1 else rootupla_gen_2
         in_file = TFile.Open(rootupla,'READ')
         tree = TTree()
@@ -78,19 +80,21 @@ def makePlots():
         for event in tree:
             if cont == 10000:
                 break
-            if event.Upsilon_pt > cuts.upsilon_pt_lcut  and event.Upsilon_pt < cuts.upsilon_pt_hcut and abs(event.photon_eta) < cuts.photon_eta_cut and abs(event.Upsilon_rapidity) < cuts.upsilon_rapidity_cut and abs(event.muP_p4.Eta()) < 2.4 and abs(event.muM_p4.Eta()) < 2.4:
+            if event.Upsilon_pt > cuts.upsilon_pt_lcut  and event.Upsilon_pt < cuts.upsilon_pt_hcut and abs(event.photon_eta) < cuts.photon_eta_cut and abs(event.Upsilon_rapidity) < cuts.upsilon_rapidity_cut:# and abs(event.muP_p4.Eta()) < 2.4 and abs(event.muM_p4.Eta()) < 2.4:
                 muP_pt = event.muP_p4.Pt()
                 muP_eta = event.muP_p4.Eta()
                 ups_dir, mu_dir = upsilonMuDirections(event.chib_p4, event.Upsilon_p4, event.muP_p4,'hx')
-                weight = 1#angDist(ups_dir, mu_dir, chib_state, None)
+                weight = angDist(ups_dir, mu_dir, chib_state, None)
                 histos['mu_pt'].Fill(muP_pt, weight)
                 histos['mu_pt'].Fill(event.muM_p4.Pt(), weight)
                 histos['mu_eta'].Fill(muP_eta, weight)
                 histos['mu_eta'].Fill(event.muM_p4.Eta(), weight)
+                h2D.Fill(muP_eta, muP_pt, weight)
+                h2D.Fill(event.muM_p4.Eta(), event.muM_p4.Pt(), weight)
                 cont += 1
 
-    fillHistos(1, histos_chib1)
-    fillHistos(2, histos_chib2)
+    fillHistos(1, histos_chib1, h2D_chib1)
+    fillHistos(2, histos_chib2, h2D_chib2)
 
     #for histo in histos_chib1.values()+histos_chib2.values():
     #    histo.Scale(1./histo.Integral())   
@@ -123,10 +127,14 @@ def makePlots():
         canvas.Update()
         canvas.Print(outputFile_name+'.ps')
         canvas.Print(key+'.png')
-    canvas.Print(outputFile_name+".ps]") #chiude file .ps
+        h2D_chib1.Draw('colz')
+        canvas.Print(outputFile_name+'.ps')
+        h2D_chib2.Draw('colz')
+        canvas.Print(outputFile_name+'.ps')
+        canvas.Print(outputFile_name+".ps]") #chiude file .ps
 
 
 if __name__ == '__main__':
-    printAcceptance()
-    #makePlots()
+    #printAcceptance()
+    makePlots()
 
