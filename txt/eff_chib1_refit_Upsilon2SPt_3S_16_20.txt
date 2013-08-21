@@ -1,0 +1,11 @@
+(ipyUtils
+Efficiency
+p0
+(dp1
+S's_eff'
+p2
+F7.317402485704248e-05
+sS'eff'
+p3
+F0.0019431991045200003
+sb.

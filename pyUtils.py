@@ -70,11 +70,17 @@ def makeRooDataset(inputfile_name):
     rf3S_chib_mass = RooRealVar("rf3S_chib_mass","rf3S_chib_mass",9.5,60.)
     probFit3S = RooRealVar("probFit3S","probFit3S",0.,1.)
 
+    muonP_pt = RooRealVar("muonP_pt","muonP_pt",0.,100.)
+    muonM_pt = RooRealVar("muonM_pt","muonM_pt",0.,100.)
+    muonP_eta = RooRealVar("muonP_eta","muonP_eta",-5.,5.)
+    muonM_eta = RooRealVar("muonM_eta","muonM_eta",-5.,5.)
+
     dataArgSet = RooArgSet(invm1S, invm2S, invm3S, dimuon_mass, dimuon_rapidity, dimuon_pt, photon_eta, photon_pt, ctpv)
     dataArgSet.add(RooArgSet(chib_mass, chib_pt, chib_eta, chib_phi))
     dataArgSet.add(RooArgSet(ctpv_error, pi0_abs_mass, Y1S_nsigma, Y2S_nsigma, Y3S_nsigma, conv_vertex, dz, numPrimaryVertices))
     dataArgSet.add(RooArgSet(rf1S_chib_mass, probFit1S, rf2S_chib_mass, probFit2S, rf3S_chib_mass, probFit3S))
     dataArgSet.add(RooArgSet(rf1S_chib_pt, rf1S_chib_eta, rf1S_dimuon_mass, rf1S_dimuon_rapidity, rf1S_dimuon_pt, rf1S_photon_eta, rf1S_photon_pt))
+    dataArgSet.add(RooArgSet(muonP_pt, muonM_pt, muonP_eta, muonM_eta))
     dataSet = RooDataSet("chibds","Chib RooDataSet", tree, dataArgSet)
     return dataSet
 
@@ -118,8 +124,8 @@ class Cuts:
        
 
     def __str__(self):
-        return "probFit1S > 0.02  && Y1S_nsigma < 2.5 && {varLabel}photon_pt > {photon_pt_cut} && abs({varLabel}photon_eta) < {photon_eta_cut} && {varLabel}dimuon_pt > {dimuon_pt_lcut} && {varLabel}dimuon_pt < {dimuon_pt_hcut} && abs({varLabel}dimuon_rapidity) < {dimuon_rapidity_cut} && pi0_abs_mass > {pi0_abs_mass_cut} &&  abs(dz) < {dz_cut}".format(photon_pt_cut=self.photon_pt_cut, photon_eta_cut=self.photon_eta_cut, dimuon_pt_lcut=self.upsilon_pt_lcut, dimuon_pt_hcut=self.upsilon_pt_hcut, dimuon_rapidity_cut=self.upsilon_rapidity_cut, pi0_abs_mass_cut=self.pi0_abs_mass_cut, dz_cut=self.dz_cut, varLabel = self.varLabel)+self.str_cut
-        #return "probFit1S > 0.02  && Y1S_nsigma < 2.5 && {varLabel}photon_pt > {photon_pt_cut} && abs({varLabel}photon_eta) < {photon_eta_cut} && {varLabel}dimuon_pt > {dimuon_pt_lcut} && {varLabel}dimuon_pt < {dimuon_pt_hcut} && abs({varLabel}dimuon_rapidity) < {dimuon_rapidity_cut} && pi0_abs_mass > {pi0_abs_mass_cut} &&  abs(dz) < {dz_cut} && muonP_pt > moun_pt_cut && muonM_pt > moun_pt_cut && abs(muonP_eta) < muon_eta_cut && abs(muonM_eta) < muon_eta_cut".format(photon_pt_cut=self.photon_pt_cut, photon_eta_cut=self.photon_eta_cut, dimuon_pt_lcut=self.upsilon_pt_lcut, dimuon_pt_hcut=self.upsilon_pt_hcut, dimuon_rapidity_cut=self.upsilon_rapidity_cut, pi0_abs_mass_cut=self.pi0_abs_mass_cut, dz_cut=self.dz_cut, muon_pt_cut=self.muon_pt_cut, muon_eta_cut=self.muon_eta_cut, varLabel = self.varLabel)+self.str_cut
+        #return "probFit1S > 0.02  && Y1S_nsigma < 2.5 && {varLabel}photon_pt > {photon_pt_cut} && abs({varLabel}photon_eta) < {photon_eta_cut} && {varLabel}dimuon_pt > {dimuon_pt_lcut} && {varLabel}dimuon_pt < {dimuon_pt_hcut} && abs({varLabel}dimuon_rapidity) < {dimuon_rapidity_cut} && pi0_abs_mass > {pi0_abs_mass_cut} &&  abs(dz) < {dz_cut}".format(photon_pt_cut=self.photon_pt_cut, photon_eta_cut=self.photon_eta_cut, dimuon_pt_lcut=self.upsilon_pt_lcut, dimuon_pt_hcut=self.upsilon_pt_hcut, dimuon_rapidity_cut=self.upsilon_rapidity_cut, pi0_abs_mass_cut=self.pi0_abs_mass_cut, dz_cut=self.dz_cut, varLabel = self.varLabel)+self.str_cut
+        return "probFit1S > 0.02  && Y1S_nsigma < 2.5 && {varLabel}photon_pt > {photon_pt_cut} && abs({varLabel}photon_eta) < {photon_eta_cut} && {varLabel}dimuon_pt > {dimuon_pt_lcut} && {varLabel}dimuon_pt < {dimuon_pt_hcut} && abs({varLabel}dimuon_rapidity) < {dimuon_rapidity_cut} && pi0_abs_mass > {pi0_abs_mass_cut} &&  abs(dz) < {dz_cut} && muonP_pt > {muon_pt_cut} && muonM_pt > {muon_pt_cut} && abs(muonP_eta) < {muon_eta_cut} && abs(muonM_eta) < {muon_eta_cut}".format(photon_pt_cut=self.photon_pt_cut, photon_eta_cut=self.photon_eta_cut, dimuon_pt_lcut=self.upsilon_pt_lcut, dimuon_pt_hcut=self.upsilon_pt_hcut, dimuon_rapidity_cut=self.upsilon_rapidity_cut, pi0_abs_mass_cut=self.pi0_abs_mass_cut, dz_cut=self.dz_cut, muon_pt_cut=self.muon_pt_cut, muon_eta_cut=self.muon_eta_cut, varLabel = self.varLabel)+self.str_cut
   
     def saveToFile(self, fileName = "cuts.txt"):
         pickle.dump(self, open( fileName, "wb" ))
