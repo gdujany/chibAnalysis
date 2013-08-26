@@ -158,12 +158,11 @@ def makeTableN_21(numChibs, printAllData=False):
     '''
 
     with open('tables/N21_'+varLabel+'.tex', 'w') as outFile:
-        righe = ['numChib1', 'numChib2', 'ratio_21', 'numBkg', 'q0', 'alpha', 'beta']
+        righe = ['numChib1', 'numChib2', 'ratio_21', 'numBkg', 'alpha', 'beta']
         nomi = dict(numChib1 = '$N_{\\chi_{b1}}$',
                     numChib2 = '$N_{\\chi_{b2}}$',
                     ratio_21 = '$N_{\\chi_{b2}}/N_{\\chi_{b1}}$',
                     numBkg = '$N_{bkg}$',
-                    q0 = '$m_0$ [GeV]',
                     alpha = '$\\lambda$',
                     beta = '$\\nu$ $[GeV^{-1}]$')
         numColumns = len(ptBins)

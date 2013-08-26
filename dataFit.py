@@ -105,10 +105,10 @@ def doDataFit(Chib1_parameters,Chib2_parameters, cuts, inputfile_name = None, Ro
         
     
     #background
-    q01S_Start = 9.55
+    q01S_Start = 9.5
     alpha   =   RooRealVar("#alpha","#alpha",1.5,0.2,3.5)
     beta    =   RooRealVar("#beta","#beta",-2.5,-7.,0.)
-    q0      =   RooRealVar("q0","q0",q01S_Start,9.5,9.7)
+    q0      =   RooRealVar("q0","q0",q01S_Start)#,9.5,9.7)
     delta   =   RooFormulaVar("delta","TMath::Abs(@0-@1)",RooArgList(x,q0))
     b1      =   RooFormulaVar("b1","@0*(@1-@2)",RooArgList(beta,x,q0))
     signum1 =   RooFormulaVar( "signum1","( TMath::Sign( -1.,@0-@1 )+1 )/2.", RooArgList(x,q0) )
