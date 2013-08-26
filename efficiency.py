@@ -82,7 +82,7 @@ def makeEffHistos(sel_file_name, gen_file_name, cuts=Cuts(), chib_state=1, frame
     #inFile_ptSpectra.Close()
 
 
-def makePlotsEff(inFile1_name = 'effHistos/chib1_hx_refit.root', inFile2_name = 'effHistos/chib2_hx_refit.root', outputFile_name = 'effHistos/plotsEff'):
+def makePlotsEff(inFile1_name = 'effHistos/chib1_hx_refit.root', inFile2_name = 'effHistos/chib2_hx_refit.root', outputFile_name = 'effHistos/plots/plotsEff'):
     '''
     Make plots of efficiency vs pt upsilon for both chib1 and chib2 and save the histo in a root file and in a ps
     '''
@@ -200,15 +200,16 @@ def makePlotsEff(inFile1_name = 'effHistos/chib1_hx_refit.root', inFile2_name = 
         canvas.Update()
         histo.Draw()
         canvas.Update()
-        canvas.Print(outputFile_name+'.ps')
-        canvas.Print(outputFile_name+'_'+histo.GetName()+'.png')
+        canvas.Print(outputFile_name+'_'+histo.GetName()+'.pdf')
+        canvas.Print(outputFile_name+'_'+histo.GetName()+'.root')
     
     canvas.SetLogy(0)
     h_ratio.Draw()
     f_ratio.Draw('same')
     canvas.Update()
     canvas.Print(outputFile_name+'.ps')  
-    canvas.Print(outputFile_name+'_'+'ratio.png')
+    canvas.Print(outputFile_name+'_'+'ratio.pdf')
+    canvas.Print(outputFile_name+'_'+'ratio.root')
 
     # h_ratio.Fit("fa")
     # h_ratio.Draw()
@@ -621,7 +622,7 @@ if __name__ == '__main__':
             ptMax = ptBins[ptBin]
        
 
-        inFileEff_name = 'effHistos/plotsEff_hx_'+ptFileLabel+'_'+ptSpectrum_rw+'_'+varLabel+'.root'
+        inFileEff_name = 'effHistos/plots/plotsEff_hx_'+ptFileLabel+'_'+ptSpectrum_rw+'_'+varLabel+'.root'
         inFileEff = TFile(inFileEff_name,'read')
         h_eff1 = inFileEff.Get('chib1')
         h_eff2 = inFileEff.Get('chib2')
@@ -671,7 +672,7 @@ if __name__ == '__main__':
         print 'Making plots'
         inFile1_name = 'effHistos/chib1_hx_'+ptFileLabel+'_'+ptSpectrum_rw+'_'+varLabel+'.root' # I take hx as frame because in these plots I look only the unpolarized case so it's the same
         inFile2_name = 'effHistos/chib2_hx_'+ptFileLabel+'_'+ptSpectrum_rw+'_'+varLabel+'.root'
-        outputFile_name = 'effHistos/plotsEff_'+frame+'_'+ptFileLabel+'_'+ptSpectrum_rw+'_'+varLabel
+        outputFile_name = 'effHistos/plots/plotsEff_'+frame+'_'+ptFileLabel+'_'+ptSpectrum_rw+'_'+varLabel
         
         makePlotsEff(inFile1_name, inFile2_name, outputFile_name)
     

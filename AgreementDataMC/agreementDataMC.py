@@ -13,8 +13,8 @@ TH1.SetDefaultSumw2(True) #Cosi` in automatico per tutti gli isto dovrebbe abili
 ptFileLabel = 'Upsilon2SPt' # 'Upsilon2SPt', 'Upsilon2SPt', 'Upsilon3SPt'
 ptFileLabel1 = ptFileLabel#'UpsilonPt'
 ptFileLabel2 = ptFileLabel#'Upsilon3SPt'
-### TOLTO NEL CODICE PER IL MOMENTO
-mc_ptSpectrum = '1S' # '1S', '2S', '3S', 'flat' 
+
+mc_ptSpectrum = '3S' # '1S', '2S', '3S', 'flat' 
 
 
 output_name = 'agreementDataMC_'+mc_ptSpectrum#+'_rw'
@@ -79,7 +79,7 @@ def makeHistos():
         inputFile = TFile.Open(inputFileName,"READ")
         inputFile.GetObject(chibTreeName, tree)
         for event in tree:
-            if(event.Y1S_nsigma < 2.5 and event.probFit1S > 0.02 and event.dz < cuts.dz_cut and event.dimuon_pt > cuts.upsilon_pt_lcut and event.dimuon_pt < cuts.upsilon_pt_hcut and event.photon_pt > cuts.photon_pt_cut and abs(event.photon_eta) < cuts.photon_eta_cut and  abs(event.dimuon_rapidity) < cuts.upsilon_rapidity_cut): 
+            if(event.Y1S_nsigma < 2.5 and event.probFit1S > 0.02 and event.dz < cuts.dz_cut and event.dimuon_pt > cuts.upsilon_pt_lcut and event.dimuon_pt < cuts.upsilon_pt_hcut and event.photon_pt > cuts.photon_pt_cut and abs(event.photon_eta) < cuts.photon_eta_cut and  abs(event.dimuon_rapidity) < cuts.upsilon_rapidity_cut) and abs(event.muonP_eta) < cuts.muon_eta_cut and abs(event.muonM_eta) < cuts.muon_eta_cut and event.muonP_pt > cuts.muon_pt_cut and event.muonM_pt > cuts.muon_pt_cut: 
                 PtWeight = givePtweight(pt=event.chib_p4.Pt(), outPt=mc_ptSpectrum, inPt='2S')
                 ups_dir, mu_dir = upsilonMuDirections(event.chib_p4, event.Upsilon_p4, event.muP_p4,'hx')
                 weight_polarization = angDist(ups_dir, mu_dir, num_chib, None)
@@ -96,7 +96,7 @@ def makeHistos():
     inputFile.GetObject(chibTreeName, tree)
     for event in tree:
         for key in histos_SR1.keys():
-            if(event.Y1S_nsigma < 2.5 and event.probFit1S > 0.02 and event.dz < cuts.dz_cut and event.dimuon_pt > cuts.upsilon_pt_lcut and event.dimuon_pt < cuts.upsilon_pt_hcut and event.photon_pt > cuts.photon_pt_cut and abs(event.photon_eta) < cuts.photon_eta_cut and  abs(event.dimuon_rapidity) < cuts.upsilon_rapidity_cut):
+            if(event.Y1S_nsigma < 2.5 and event.probFit1S > 0.02 and event.dz < cuts.dz_cut and event.dimuon_pt > cuts.upsilon_pt_lcut and event.dimuon_pt < cuts.upsilon_pt_hcut and event.photon_pt > cuts.photon_pt_cut and abs(event.photon_eta) < cuts.photon_eta_cut and  abs(event.dimuon_rapidity) < cuts.upsilon_rapidity_cut) and abs(event.muonP_eta) < cuts.muon_eta_cut and abs(event.muonM_eta) < cuts.muon_eta_cut and event.muonP_pt > cuts.muon_pt_cut and event.muonM_pt > cuts.muon_pt_cut:
                 if event.rf1S_chib_mass > 9.83 and event.rf1S_chib_mass < 9.9 :
                     histos_SR1[key].Fill(getattr(event, key))
                 if event.rf1S_chib_mass > 9.9 and event.rf1S_chib_mass < 9.93 :
@@ -386,5 +386,5 @@ def makePlots():
     inputFile.Close()
 
 if __name__ == '__main__':
-    #makeHistos()
+    makeHistos()
     makePlots()

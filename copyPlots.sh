@@ -13,5 +13,8 @@ cp sistematici/plotsVariaCB/ratios_refit* ../tesi/myDir/notes/AN-13-194/trunk/fi
 cp sistematici/plotsVariaFunz/*.pdf ../tesi/myDir/notes/AN-13-194/trunk/figures/sistematici/
 cp sistematici/plotsVariaFunz/*.root ../tesi/myDir/notes/AN-13-194/trunk/figures/sistematici/
 
+cp effHistos/plots/plotsEff_hx_Upsilon2SPt_2S_refit_*.pdf ../tesi/myDir/notes/AN-13-194/trunk/figures/Efficiency/
+cp effHistos/plots/plotsEff_hx_Upsilon2SPt_2S_refit_*.root ../tesi/myDir/notes/AN-13-194/trunk/figures/Efficiency/
+
 cp tables/*.tex ../tesi/myDir/notes/AN-13-194/trunk/tables/
 
