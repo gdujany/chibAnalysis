@@ -440,7 +440,7 @@ def makeEfficiencyTableXMethod(varLabel, ptY_label, outFile_name, ptFileLabel='U
     '''
     make table of ratio efficiencies in the various bins
     '''
-    inFileEff_name = 'effHistos/plotsEff_hx_'+ptFileLabel+'_'+ptSpectrum_rw+'_'+varLabel+'.root'
+    inFileEff_name = 'effHistos/plots/plotsEff_hx_'+ptFileLabel+'_'+ptSpectrum_rw+'_'+varLabel+'.root'
     inFileEff = TFile(inFileEff_name,'read')
     h_eff1 = inFileEff.Get('chib1')
     h_eff2 = inFileEff.Get('chib2')
