@@ -313,11 +313,11 @@ if __name__ == '__main__':
     ptBin = None
     isMakeTable = False
     isMakePlot = False
-    ptSpectrum = '3S'
+    ptSpectrum = '2S'
     try:
-        opts, args = getopt.getopt(sys.argv[1:],'fb:',['refit', 'ptBin=', 'makeTable', 'makePlot', 'filePt='])
+        opts, args = getopt.getopt(sys.argv[1:],'fb:',['refit', 'ptBin=', 'makeTable', 'makePlot', 'pt='])
     except getopt.GetoptError:
-        print './rcs.py [-f] [-b <1,2, 3, 4>] [--makeTable]'
+        print './rcs.py [-f] [-b <1,2, 3, 4>] [--makeTable] [--pt]'
         print '-f = --refit   -b = --ptBin'  
         sys.exit(2)
     for opt, arg in opts:
@@ -329,7 +329,7 @@ if __name__ == '__main__':
             isMakeTable = True
         if opt == '--makePlot':
             isMakePlot = True
-        if opt == '--filePt':
+        if opt == '--pt':
             ptSpectrum = arg
 
     if ptSpectrum in ('1S', '1s'):

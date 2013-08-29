@@ -138,7 +138,7 @@ def makePlotsEff(inFile1_name = 'effHistos/chib1_hx_refit.root', inFile2_name = 
     h_chib2 = makeHistoEff(2)
 
     h_ratio = h_chib1.Clone()
-    h_ratio.SetNameTitle('ratio','#epsilon_{1}/#epsilon_{2};p_{T#Upsilon} [GeV];')
+    h_ratio.SetNameTitle('ratio','#epsilon_{1}/#epsilon_{2};p_{T}(#Upsilon) [GeV];')
     for i in range(h_ratio.GetNbinsX()+2):
             try:
                 ratio = h_chib1.GetBinContent(i)/h_chib2.GetBinContent(i)
@@ -200,28 +200,33 @@ def makePlotsEff(inFile1_name = 'effHistos/chib1_hx_refit.root', inFile2_name = 
         canvas.Update()
         histo.Draw()
         canvas.Update()
+        canvas.Print(outputFile_name+'.ps')
         canvas.Print(outputFile_name+'_'+histo.GetName()+'.pdf')
         canvas.Print(outputFile_name+'_'+histo.GetName()+'.root')
     
-    canvas.SetLogy(0)
+    # canvas.SetLogy(0)
+    # h_ratio.Draw()
+    # f_ratio.Draw('same')
+    # canvas.Update()
+    # canvas.Print(outputFile_name+'.ps')  
+    # canvas.Print(outputFile_name+'_'+'ratio.pdf')
+    # canvas.Print(outputFile_name+'_'+'ratio.root')
+
+    h_ratio.Fit("fa")
+    h_ratio.SetMaximum(1.4)
     h_ratio.Draw()
     f_ratio.Draw('same')
     canvas.Update()
-    canvas.Print(outputFile_name+'.ps')  
+    canvas.Print(outputFile_name+'.ps')
     canvas.Print(outputFile_name+'_'+'ratio.pdf')
     canvas.Print(outputFile_name+'_'+'ratio.root')
-
-    # h_ratio.Fit("fa")
-    # h_ratio.Draw()
-    # canvas.Update()
-    # canvas.Print(outputFile_name+'.ps')
-    # canvas.Print(outputFile_name+'_'+'ratio_const.png')
     
     # h_ratio.Fit("1++x")
     # h_ratio.Draw()
     # canvas.Update()
     # canvas.Print(outputFile_name+'.ps') 
-    # canvas.Print(outputFile_name+'_'+'ratio_lin.png')
+    # #canvas.Print(outputFile_name+'_'+'ratio_lin.pdf')
+    # #canvas.Print(outputFile_name+'_'+'ratio_lin.root')
 
 
     # hs = THStack('hs', 'Efficiencies;p_{T#Upsilon} [GeV];')
