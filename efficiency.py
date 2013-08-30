@@ -762,13 +762,14 @@ if __name__ == '__main__':
             eRatios['default'] = eff_sist['1_default'].eff/eff_sist['2_default'].eff
             eRatios['1S_2S'] = eff_sist['1_1S'].eff/eff_sist['2_2S'].eff
             eRatios['2S_3S'] = eff_sist['1_2S'].eff/eff_sist['2_3S'].eff
+            eRatios['1S_1S'] = eff_sist['1_1S'].eff/eff_sist['2_1S'].eff
             eRatios['3S_3S'] = eff_sist['1_3S'].eff/eff_sist['2_3S'].eff
             
-            for key in ['default', '1S_2S', '2S_3S', '3S_3S']:
+            for key in ['default', '1S_2S', '2S_3S', '1S_1S', '3S_3S']:
                 txtFile.write(key+' = '+str(eRatios[key])+'\n')
             
 
-            return max([abs(eRatios['default'] - eRatios[key]) for key in ['3S_3S']])/eRatios['default'] #errore relativo
+            return max([abs(eRatios['default'] - eRatios[key]) for key in ['3S_3S', '1S_1S', '1S_2S', '2S_3S']])/eRatios['default'] #errore relativo
 
 
         txtFile = open('varieEfficienze.txt', 'w')
