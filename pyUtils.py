@@ -23,9 +23,10 @@ def roundList(ll, sig=1):
     cfr = cfr_list[-1]
     return [('{:.'+str(cfr)+'f}').format(val) for val in ll]
 
-def roundDict(dd, sig=1):
+def roundDict(dd, sig=1, cfr_fixed=None):
     cfr_list = sorted([sig-int(floor(log10(abs(err))))-1 for err in dd.values() if err !=0.])
     cfr = cfr_list[-1]
+    if cfr_fixed: cfr = cfr_fixed
     return dict([(key,('{:.'+str(cfr)+'f}').format(val)) for key,val in dd.items()])
 
 
