@@ -32,5 +32,5 @@ cd tables/
 pdflatex vediTabelle
 cd -
 
-
+./dataFit.py -a --pas
 

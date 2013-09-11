@@ -14,7 +14,7 @@ ptFileLabel = 'Upsilon2SPt' # 'Upsilon2SPt', 'Upsilon2SPt', 'Upsilon3SPt'
 ptFileLabel1 = ptFileLabel#'UpsilonPt'
 ptFileLabel2 = ptFileLabel#'Upsilon3SPt'
 
-mc_ptSpectrum = '3S' # '1S', '2S', '3S', 'flat' 
+mc_ptSpectrum = '1S' # '1S', '2S', '3S', 'flat' 
 
 
 output_name = 'agreementDataMC_'+mc_ptSpectrum#+'_rw'

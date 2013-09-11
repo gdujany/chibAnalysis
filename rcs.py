@@ -144,7 +144,7 @@ def makeTableR(rcs, printAllData=False):
                 s_polar_cs_h = rcs[ptBin].R() * rcs[ptBin].s_rel_polar_cs()[1],
                 )
             
-            R = roundDict(R)
+            R = roundDict(R, cfr_fixed = 2)
             outFile.write('\\multirow{2}*{'+R['val']+' $\\pm$ '+R['s_stat']+' (stat.) $\\pm$ '+R['s_sist']+' (syst.)} &')
             outFile.write('+'+R['s_polar_hx_h']+'  &  +'+R['s_polar_cs_h']+' \\\\ \n')
             outFile.write(' &  &  $-$'+R['s_polar_hx_l']+'  &  $-$'+R['s_polar_cs_l']+' \\\\ \n')
@@ -277,7 +277,7 @@ def makePlotRCS(rcs):
 
     pvtxt = TPaveText(.7,.8,0.92,0.93,"NDC")
 #pvtxt.AddText('CMS Preliminary 2011')
-    pvtxt.AddText('CMS')
+    pvtxt.AddText('CMS Preliminary')
     pvtxt.AddText('pp, #sqrt{s} = 8 TeV')
     pvtxt.AddText('L = 20.7 fb^{-1}')
     pvtxt.SetFillStyle(0)
@@ -313,11 +313,11 @@ if __name__ == '__main__':
     ptBin = None
     isMakeTable = False
     isMakePlot = False
-    ptSpectrum = '3S'
+    ptSpectrum = '2S'
     try:
-        opts, args = getopt.getopt(sys.argv[1:],'fb:',['refit', 'ptBin=', 'makeTable', 'makePlot', 'filePt='])
+        opts, args = getopt.getopt(sys.argv[1:],'fb:',['refit', 'ptBin=', 'makeTable', 'makePlot', 'pt='])
     except getopt.GetoptError:
-        print './rcs.py [-f] [-b <1,2, 3, 4>] [--makeTable]'
+        print './rcs.py [-f] [-b <1,2, 3, 4>] [--makeTable] [--pt]'
         print '-f = --refit   -b = --ptBin'  
         sys.exit(2)
     for opt, arg in opts:
@@ -329,7 +329,7 @@ if __name__ == '__main__':
             isMakeTable = True
         if opt == '--makePlot':
             isMakePlot = True
-        if opt == '--filePt':
+        if opt == '--pt':
             ptSpectrum = arg
 
     if ptSpectrum in ('1S', '1s'):

@@ -138,7 +138,7 @@ def makePlotsEff(inFile1_name = 'effHistos/chib1_hx_refit.root', inFile2_name = 
     h_chib2 = makeHistoEff(2)
 
     h_ratio = h_chib1.Clone()
-    h_ratio.SetNameTitle('ratio','#epsilon_{1}/#epsilon_{2};p_{T#Upsilon} [GeV];')
+    h_ratio.SetNameTitle('ratio','#epsilon_{1}/#epsilon_{2};p_{T}(#Upsilon) [GeV];')
     for i in range(h_ratio.GetNbinsX()+2):
             try:
                 ratio = h_chib1.GetBinContent(i)/h_chib2.GetBinContent(i)
@@ -200,28 +200,33 @@ def makePlotsEff(inFile1_name = 'effHistos/chib1_hx_refit.root', inFile2_name = 
         canvas.Update()
         histo.Draw()
         canvas.Update()
+        canvas.Print(outputFile_name+'.ps')
         canvas.Print(outputFile_name+'_'+histo.GetName()+'.pdf')
         canvas.Print(outputFile_name+'_'+histo.GetName()+'.root')
     
-    canvas.SetLogy(0)
+    # canvas.SetLogy(0)
+    # h_ratio.Draw()
+    # f_ratio.Draw('same')
+    # canvas.Update()
+    # canvas.Print(outputFile_name+'.ps')  
+    # canvas.Print(outputFile_name+'_'+'ratio.pdf')
+    # canvas.Print(outputFile_name+'_'+'ratio.root')
+
+    h_ratio.Fit("fa")
+    h_ratio.SetMaximum(1.4)
     h_ratio.Draw()
     f_ratio.Draw('same')
     canvas.Update()
-    canvas.Print(outputFile_name+'.ps')  
+    canvas.Print(outputFile_name+'.ps')
     canvas.Print(outputFile_name+'_'+'ratio.pdf')
     canvas.Print(outputFile_name+'_'+'ratio.root')
-
-    # h_ratio.Fit("fa")
-    # h_ratio.Draw()
-    # canvas.Update()
-    # canvas.Print(outputFile_name+'.ps')
-    # canvas.Print(outputFile_name+'_'+'ratio_const.png')
     
     # h_ratio.Fit("1++x")
     # h_ratio.Draw()
     # canvas.Update()
     # canvas.Print(outputFile_name+'.ps') 
-    # canvas.Print(outputFile_name+'_'+'ratio_lin.png')
+    # #canvas.Print(outputFile_name+'_'+'ratio_lin.pdf')
+    # #canvas.Print(outputFile_name+'_'+'ratio_lin.root')
 
 
     # hs = THStack('hs', 'Efficiencies;p_{T#Upsilon} [GeV];')
@@ -440,7 +445,7 @@ def makeEfficiencyTableXMethod(varLabel, ptY_label, outFile_name, ptFileLabel='U
     '''
     make table of ratio efficiencies in the various bins
     '''
-    inFileEff_name = 'effHistos/plotsEff_hx_'+ptFileLabel+'_'+ptSpectrum_rw+'_'+varLabel+'.root'
+    inFileEff_name = 'effHistos/plots/plotsEff_hx_'+ptFileLabel+'_'+ptSpectrum_rw+'_'+varLabel+'.root'
     inFileEff = TFile(inFileEff_name,'read')
     h_eff1 = inFileEff.Get('chib1')
     h_eff2 = inFileEff.Get('chib2')
@@ -757,13 +762,14 @@ if __name__ == '__main__':
             eRatios['default'] = eff_sist['1_default'].eff/eff_sist['2_default'].eff
             eRatios['1S_2S'] = eff_sist['1_1S'].eff/eff_sist['2_2S'].eff
             eRatios['2S_3S'] = eff_sist['1_2S'].eff/eff_sist['2_3S'].eff
+            eRatios['1S_1S'] = eff_sist['1_1S'].eff/eff_sist['2_1S'].eff
             eRatios['3S_3S'] = eff_sist['1_3S'].eff/eff_sist['2_3S'].eff
             
-            for key in ['default', '1S_2S', '2S_3S', '3S_3S']:
+            for key in ['default', '1S_2S', '2S_3S', '1S_1S', '3S_3S']:
                 txtFile.write(key+' = '+str(eRatios[key])+'\n')
             
 
-            return max([abs(eRatios['default'] - eRatios[key]) for key in ['3S_3S']])/eRatios['default'] #errore relativo
+            return max([abs(eRatios['default'] - eRatios[key]) for key in ['3S_3S', '1S_1S', '1S_2S', '2S_3S']])/eRatios['default'] #errore relativo
 
 
         txtFile = open('varieEfficienze.txt', 'w')

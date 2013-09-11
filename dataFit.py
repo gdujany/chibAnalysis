@@ -16,7 +16,7 @@ from array import array
 from pyUtils import *
 
 
-def doDataFit(Chib1_parameters,Chib2_parameters, cuts, inputfile_name = None, RooDataSet = None, ptBin_label='', plotTitle = "#chi_{b}",fittedVariable='qValue', printSigReso = False, noPlots = False, useOtherSignalParametrization = False, useOtherBackgroundParametrization = False, massFreeToChange = False, sigmaFreeToChange = False, legendOnPlot=True, drawPulls=False, titleOnPlot=False, cmsOnPlot=True):
+def doDataFit(Chib1_parameters,Chib2_parameters, cuts, inputfile_name = None, RooDataSet = None, ptBin_label='', plotTitle = "#chi_{b}",fittedVariable='qValue', printSigReso = False, noPlots = False, useOtherSignalParametrization = False, useOtherBackgroundParametrization = False, massFreeToChange = False, sigmaFreeToChange = False, legendOnPlot=True, drawPulls=False, titleOnPlot=False, cmsOnPlot=True, printLegend=True):
 
     if RooDataSet != None:
         dataSet = RooDataSet 
@@ -106,7 +106,7 @@ def doDataFit(Chib1_parameters,Chib2_parameters, cuts, inputfile_name = None, Ro
     
     #background
     q01S_Start = 9.5
-    alpha   =   RooRealVar("#alpha","#alpha",1.5,0.2,3.5)
+    alpha   =   RooRealVar("#alpha","#alpha",1.5,-1,3.5)#0.2 anziche' 1
     beta    =   RooRealVar("#beta","#beta",-2.5,-7.,0.)
     q0      =   RooRealVar("q0","q0",q01S_Start)#,9.5,9.7)
     delta   =   RooFormulaVar("delta","TMath::Abs(@0-@1)",RooArgList(x,q0))
@@ -197,50 +197,52 @@ def doDataFit(Chib1_parameters,Chib2_parameters, cuts, inputfile_name = None, Ro
         parameters_on_legend.add(scale_sigma)
     if massFreeToChange or sigmaFreeToChange:
         modelPdf.paramOn(frame, RooFit.Layout(0.1,0.6,0.2),RooFit.Parameters(parameters_on_legend))
-    #leg = TLegend(.12,.80,.35,.93,'','tlNDC')
-    leg = TLegend(0.48,0.75,0.97,0.95)
-    leg.SetBorderSize(0)
-    #leg.SetTextSize(0.04)
-    leg.SetFillStyle(0)
-    chi2 = frame.chiSquare()
-    probChi2 = TMath.Prob(chi2*ndof, ndof)
-    chi2 = round(chi2,2)
-    probChi2 = round(probChi2,2)
-    leg.AddEntry(0,'#chi^{2} = '+str(chi2),'')
-    leg.AddEntry(0,'Prob #chi^{2} = '+str(probChi2),'')
-    N_bkg, s_N_bkg = roundPair(numChib.numBkg, numChib.s_numBkg)
-    leg.AddEntry(0,'N_{bkg} = '+str(N_bkg)+' #pm '+str(s_N_bkg),'')
-    N_chib12, s_N_chib12 = roundPair(numChib.numChib, numChib.s_numChib)
-    leg.AddEntry(0,'N_{#chi_{b}} = '+str(N_chib12)+' #pm '+str(s_N_chib12),'')
-    Ratio = numChib.calcRatio()
-    s_Ratio = numChib.calcRatioError()
-    Ratio, s_Ratio = roundPair(Ratio, s_Ratio)
-    leg.AddEntry(0,'N_{2}/N_{1} = '+str(Ratio)+' #pm '+str(s_Ratio),'')
-    if(printSigReso): # Add Significance
-        Sig =  numChib.calcSignificance()
-        s_Sig = numChib.calcSignificanceError()
-        Sig, s_Sig = roundPair(Sig, s_Sig)
-        leg.AddEntry(0,'Sig = '+str(Sig)+' #pm '+str(s_Sig),'')
-        if(Chib1_parameters.sigma>Chib2_parameters.sigma):
-            Reso = Chib1_parameters.sigma * 1000 # So it's in MeV and not in GeV
-            s_Reso = Chib1_parameters.s_sigma * 1000 # So it's in MeV and not in GeV
-        else:
-            Reso = Chib2_parameters.sigma * 1000 # So it's in MeV and not in GeV
-            s_Reso = Chib2_parameters.s_sigma * 1000 # So it's in MeV and not in GeV
-        Reso, s_Reso =roundPair(Reso, s_Reso)
-        leg.AddEntry(0,'Reso = '+str(Reso)+' #pm '+str(s_Reso)+' MeV','')
-        #N1 = numChib.numChib1
-        #s_N1 = numChib.s_numChib1
-        #N1, s_N1 = roundPair(N1, s_N1)
-        #leg.AddEntry(0,'N_{1} = '+str(N1)+' #pm '+str(s_N1),'')
-        #N2 = numChib.numChib2
-        #s_N2 = numChib.s_numChib2
-        #N2, s_N2 = roundPair(N2, s_N2)
-        #leg.AddEntry(0,'N_{2} = '+str(N2)+' #pm '+str(s_N2),'')
-        
-    frame.addObject(leg)
+    
+    if printLegend: #chiquadro, prob, numchib...
+        leg = TLegend(0.48,0.75,0.97,0.95)
+        leg.SetBorderSize(0)
+        #leg.SetTextSize(0.04)
+        leg.SetFillStyle(0)
+        chi2 = frame.chiSquare()
+        probChi2 = TMath.Prob(chi2*ndof, ndof)
+        chi2 = round(chi2,2)
+        probChi2 = round(probChi2,2)
+        leg.AddEntry(0,'#chi^{2} = '+str(chi2),'')
+        leg.AddEntry(0,'Prob #chi^{2} = '+str(probChi2),'')
+        N_bkg, s_N_bkg = roundPair(numChib.numBkg, numChib.s_numBkg)
+        leg.AddEntry(0,'N_{bkg} = '+str(N_bkg)+' #pm '+str(s_N_bkg),'')
+        N_chib12, s_N_chib12 = roundPair(numChib.numChib, numChib.s_numChib)
+        leg.AddEntry(0,'N_{#chi_{b}} = '+str(N_chib12)+' #pm '+str(s_N_chib12),'')
+        Ratio = numChib.calcRatio()
+        s_Ratio = numChib.calcRatioError()
+        Ratio, s_Ratio = roundPair(Ratio, s_Ratio)
+        leg.AddEntry(0,'N_{2}/N_{1} = '+str(Ratio)+' #pm '+str(s_Ratio),'')
 
-    if legendOnPlot:
+        if printSigReso: # Add Significance
+            Sig =  numChib.calcSignificance()
+            s_Sig = numChib.calcSignificanceError()
+            Sig, s_Sig = roundPair(Sig, s_Sig)
+            leg.AddEntry(0,'Sig = '+str(Sig)+' #pm '+str(s_Sig),'')
+            if(Chib1_parameters.sigma>Chib2_parameters.sigma):
+                Reso = Chib1_parameters.sigma * 1000 # So it's in MeV and not in GeV
+                s_Reso = Chib1_parameters.s_sigma * 1000 # So it's in MeV and not in GeV
+            else:
+                Reso = Chib2_parameters.sigma * 1000 # So it's in MeV and not in GeV
+                s_Reso = Chib2_parameters.s_sigma * 1000 # So it's in MeV and not in GeV
+            Reso, s_Reso =roundPair(Reso, s_Reso)
+            leg.AddEntry(0,'Reso = '+str(Reso)+' #pm '+str(s_Reso)+' MeV','')
+            #N1 = numChib.numChib1
+            #s_N1 = numChib.s_numChib1
+            #N1, s_N1 = roundPair(N1, s_N1)
+            #leg.AddEntry(0,'N_{1} = '+str(N1)+' #pm '+str(s_N1),'')
+            #N2 = numChib.numChib2
+            #s_N2 = numChib.s_numChib2
+            #N2, s_N2 = roundPair(N2, s_N2)
+            #leg.AddEntry(0,'N_{2} = '+str(N2)+' #pm '+str(s_N2),'')
+
+        frame.addObject(leg)
+
+    if legendOnPlot:  #  < pT <
         legend = TLegend(.06,.75,.53,.93)
         legend.SetFillStyle(0)
         legend.SetBorderSize(0)
@@ -251,6 +253,7 @@ def doDataFit(Chib1_parameters,Chib2_parameters, cuts, inputfile_name = None, Ro
 
     if titleOnPlot:
         titleLegend = TLegend(.06,.4,.55,.73)
+       
         #titleLegend.SetTextSize(0.03)
         titleLegend.SetFillStyle(0)
         titleLegend.SetBorderSize(0)
@@ -258,8 +261,11 @@ def doDataFit(Chib1_parameters,Chib2_parameters, cuts, inputfile_name = None, Ro
         frame.addObject(titleLegend)
 
     if cmsOnPlot:
-        pvtxt = TPaveText(.06,.55,.55,.73,"NDC")
-        pvtxt.AddText('CMS')
+        if printLegend:
+            pvtxt = TPaveText(.1,.55,.55,.73,"NDC")
+        else:
+            pvtxt = TPaveText(0.5,0.75,0.97,0.9,"NDC") #(.06,.4,.55,.73)
+        pvtxt.AddText('CMS Preliminary')
         pvtxt.AddText('pp, #sqrt{s} = 8 TeV')
         pvtxt.AddText('L = 20.7 fb^{-1}')
         pvtxt.SetFillStyle(0)
@@ -332,11 +338,14 @@ if __name__ == '__main__':
     fittedVariable='qValue'
     ptBin = None
     makeAll = False
+    pas_label=''
+    printLegend = True
     try:
-        opts, args = getopt.getopt(sys.argv[1:],'fab:',['refit', 'all', 'ptBin='])
+        opts, args = getopt.getopt(sys.argv[1:],'fab:',['refit', 'all', 'ptBin=','pas'])
     except getopt.GetoptError:
-        print './dataFit.py [-f] [-b <1, 2, 3, 4>]'
-        print '-f = --refit   -a = -all  -b = --ptBin'  
+        print './dataFit.py [-f] [-b <1, 2, 3, 4>] [--pas]'
+        print '-f = --refit   -a = -all  -b = --ptBin'
+        print '--pas makes figure for pas without right legend'
         sys.exit(2)
     for opt, arg in opts:
         if opt in ('-f', '--refit'):
@@ -345,6 +354,11 @@ if __name__ == '__main__':
             makeAll = True
         if opt in ('-b', '--ptBin'):
             ptBin = int(arg)
+        if opt ==  '--pas':
+            pas_label='_forPAS'
+            printLegend = False
+
+          
   
     cuts = Cuts()
     cuts = cuts.loadFromFile("cuts.txt")
@@ -379,18 +393,18 @@ if __name__ == '__main__':
         if(fittedVariable == 'refittedMass'): cuts.varLabel = 'rf1S_'
         print str(cuts)
 
-        numChib, c1 = doDataFit(inputfile_name=inputfile_name,RooDataSet=RooDataSet,Chib1_parameters=Chib1_parameters,Chib2_parameters=Chib2_parameters, cuts=cuts, fittedVariable=fittedVariable, plotTitle = "#chi_{b} "+ptBin_addTitle,ptBin_label=ptBin_label, useOtherSignalParametrization = False, useOtherBackgroundParametrization = False, massFreeToChange = False, sigmaFreeToChange = False)
+        numChib, c1 = doDataFit(inputfile_name=inputfile_name,RooDataSet=RooDataSet,Chib1_parameters=Chib1_parameters,Chib2_parameters=Chib2_parameters, cuts=cuts, fittedVariable=fittedVariable, plotTitle = "#chi_{b} "+ptBin_addTitle,ptBin_label=ptBin_label, useOtherSignalParametrization = False, useOtherBackgroundParametrization = False, massFreeToChange = False, sigmaFreeToChange = False, printLegend=printLegend)
         numChib.saveToFile('txt/'+numChib.name+'.txt')
-        c1.SaveAs('plots/'+c1.GetName()+'.png')
-        c1.SaveAs('plots/'+c1.GetName()+'.pdf')
-        c1.SaveAs('plots/'+c1.GetName()+'.root')
+        c1.SaveAs('plots/'+c1.GetName()+pas_label+'.png')
+        c1.SaveAs('plots/'+c1.GetName()+pas_label+'.pdf')
+        c1.SaveAs('plots/'+c1.GetName()+pas_label+'.root')
 
 
     if makeAll:
         print "Creating DataSet from file "+str(inputfile_name)
         dataSet = makeRooDataset(inputfile_name)
         for ptBin in [None] + range(1,len(ptBins)):
-            for fittedVariable in ('qValue', 'refittedMass'):
+            for fittedVariable in ('refittedMass', 'qValue'):
                 make(ptBin=ptBin, fittedVariable=fittedVariable, RooDataSet=dataSet) 
     else:
         make(ptBin=ptBin, fittedVariable=fittedVariable, inputfile_name=inputfile_name)
