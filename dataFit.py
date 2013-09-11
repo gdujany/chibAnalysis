@@ -106,7 +106,7 @@ def doDataFit(Chib1_parameters,Chib2_parameters, cuts, inputfile_name = None, Ro
     
     #background
     q01S_Start = 9.5
-    alpha   =   RooRealVar("#alpha","#alpha",1.5,0.2,3.5)
+    alpha   =   RooRealVar("#alpha","#alpha",1.5,-1,3.5)#0.2 anziche' 1
     beta    =   RooRealVar("#beta","#beta",-2.5,-7.,0.)
     q0      =   RooRealVar("q0","q0",q01S_Start)#,9.5,9.7)
     delta   =   RooFormulaVar("delta","TMath::Abs(@0-@1)",RooArgList(x,q0))
@@ -404,7 +404,7 @@ if __name__ == '__main__':
         print "Creating DataSet from file "+str(inputfile_name)
         dataSet = makeRooDataset(inputfile_name)
         for ptBin in [None] + range(1,len(ptBins)):
-            for fittedVariable in ('refittedMass', ):#'qValue'
+            for fittedVariable in ('refittedMass', 'qValue'):
                 make(ptBin=ptBin, fittedVariable=fittedVariable, RooDataSet=dataSet) 
     else:
         make(ptBin=ptBin, fittedVariable=fittedVariable, inputfile_name=inputfile_name)
