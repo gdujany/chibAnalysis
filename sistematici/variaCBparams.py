@@ -15,8 +15,8 @@ ROOT.SetMemoryPolicy( ROOT.kMemoryStrict )
 
 def makeTree(outFile_name, cuts, fittedVariable):
 
-    rootupla_Chib1_Sel = '../../store/ChiB_1P_1_UpsilonPt.root'
-    rootupla_Chib2_Sel = '../../store/ChiB_1P_2_UpsilonPt.root'
+    rootupla_Chib1_Sel = '../../store/ChiB_1P_1_Upsilon2SPt.root'
+    rootupla_Chib2_Sel = '../../store/ChiB_1P_2_Upsilon2SPt.root'
     rootupla_2012Data = "../../store/2012_AllData.root"
 
     mass_chib1_1P =  9.89278
