@@ -2,6 +2,8 @@ Per fare l'analisi occorre:
 
 ./efficiency -f --makeHistos -c1
 ./efficiency -f --makeHistos -c2
+./efficiency -f --makeHistos --cs -c1
+./efficiency -f --makeHistos --cs -c2
 ./efficiency -f --makeHistos --reweighPt 1S -c1
 ./efficiency -f --makeHistos --reweighPt 1S -c2
 ./efficiency -f --makeHistos --reweighPt 2S -c1
