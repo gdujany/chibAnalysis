@@ -20,6 +20,8 @@ cd sistematici
 
 che fa i 100 fit facendo variare i parametri delle DSCB entro gli errori. Produce i files nella cartella trees/ che poi vanno ultriormente uniti
 es. hadd numChib_refit_20_40.root numChib_refit_20_40_?.root
+oppure dalla cartella trees/
+unisciTrees.sh
 
 Ci mette una ventina di ore su pccmsto04 e contiene il memory leak (ma ora dovrebbe girare senza danni)
 
