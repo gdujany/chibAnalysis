@@ -13,8 +13,8 @@ import ROOT, getopt
 
 ptBins = [7,11,16,20,40]
 
-rootupla_Chib1_Sel = '../../store/ChiB_1P_1_UpsilonPt.root'
-rootupla_Chib2_Sel = '../../store/ChiB_1P_2_UpsilonPt.root'
+rootupla_Chib1_Sel = '../../store/ChiB_1P_1_Upsilon2SPt.root'
+rootupla_Chib2_Sel = '../../store/ChiB_1P_2_Upsilon2SPt.root'
 rootupla_2012Data = "../../store/2012_AllData.root"
 
 # make dataset outside the loop only once to speed up the process
