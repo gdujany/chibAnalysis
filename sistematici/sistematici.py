@@ -37,7 +37,7 @@ def makeTable(varLabel,printAllData=False):
     tipiSistematici = dict(
         ratioEff = 'Statistical error on $\\epsilon_1/\\epsilon_2$',
         dscbParam = 'Signal parameterization',
-        #funzParam = 'Data fitting systematic',
+        funzParam = 'Data fitting systematic',
         ptDistro = 'Choice of $\\chi_b$ $p_T$ spectrum',
         )
     

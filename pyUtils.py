@@ -336,7 +336,7 @@ class Sistematici:
         pass
 
     def s_rel_total(self):
-        return sqrt( self.ratioEff**2 + self.dscbParam**2 + self.ptDistro**2 )
+        return sqrt( self.ratioEff**2 + self.dscbParam**2 + self.ptDistro**2 + self.funzParam**2)
     
     def saveToFile(self, fileName = 'sistematici.txt'):
         pickle.dump(self, open( fileName, "wb" ))
