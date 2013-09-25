@@ -4,7 +4,7 @@ p0
 (dp1
 S'photon_pt_cut'
 p2
-F0.0
+F1.0
 sS'str_cut'
 p3
 S''
