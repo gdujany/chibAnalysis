@@ -1,13 +1,14 @@
 Per fare l'analisi occorre:
 
-./efficiency -f --makeHistos -c1
-./efficiency -f --makeHistos -c2
-./efficiency -f --makeHistos --cs -c1
-./efficiency -f --makeHistos --cs -c2
-./efficiency -f --makeHistos --reweighPt 1S -c1
-./efficiency -f --makeHistos --reweighPt 1S -c2
-./efficiency -f --makeHistos --reweighPt 2S -c1
-./efficiency -f --makeHistos --reweighPt 2S -c2
+python efficiency.py -f --makeHistos -c1 &
+python efficiency.py -f --makeHistos -c2 &
+python efficiency.py -f --makeHistos --cs -c1 &
+python efficiency.py -f --makeHistos --cs -c2 &
+python efficiency.py -f --makeHistos --reweighPt 1S -c1 &
+python efficiency.py -f --makeHistos --reweighPt 1S -c2 &
+python efficiency.py -f --makeHistos --reweighPt 2S -c1 &
+python efficiency.py -f --makeHistos --reweighPt 2S -c2 &
+
 
 Crea le rootuple con gli istogrammi necessari per il calcolo delle efficienze nella cartella effHistos
 Bisogna che in ../store/ ci siano anche le rootuple con i generati (di solito lo faccio su pccmsto04)
