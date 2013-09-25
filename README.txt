@@ -6,8 +6,8 @@ python efficiency.py -f --makeHistos --cs -c1 &
 python efficiency.py -f --makeHistos --cs -c2 &
 python efficiency.py -f --makeHistos --reweighPt 1S -c1 &
 python efficiency.py -f --makeHistos --reweighPt 1S -c2 &
-python efficiency.py -f --makeHistos --reweighPt 2S -c1 &
-python efficiency.py -f --makeHistos --reweighPt 2S -c2 &
+python efficiency.py -f --makeHistos --reweighPt 3S -c1 &
+python efficiency.py -f --makeHistos --reweighPt 3S -c2 &
 
 
 Crea le rootuple con gli istogrammi necessari per il calcolo delle efficienze nella cartella effHistos
