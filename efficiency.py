@@ -61,7 +61,7 @@ def makeEffHistos(sel_file_name, gen_file_name, cuts=Cuts(), chib_state=1, frame
 
     print 'Computing number selected particles'
     for event in sel_tree:
-        if event.dimuon_pt > cuts.upsilon_pt_lcut and event.dimuon_pt < cuts.upsilon_pt_hcut and event.photon_pt > cuts.photon_pt_cut and abs(event.photon_eta) < cuts.photon_eta_cut and abs(event.dimuon_rapidity) < cuts.upsilon_rapidity_cut and abs(event.dz)<cuts.dz_cut and abs(event.muP_p4.Eta()) < cuts.muon_eta_cut and abs(event.muM_p4.Eta()) < cuts.muon_eta_cut and event.muP_p4.Pt() > cuts.muon_pt_cut and event.muM_p4.Pt() > cuts.muon_pt_cut and event.Y1S_nsigma<2.5 and event.probFit1S>0.02:
+        if event.dimuon_pt > cuts.upsilon_pt_lcut and event.dimuon_pt < cuts.upsilon_pt_hcut and event.photon_pt > cuts.photon_pt_cut and abs(event.photon_eta) < cuts.photon_eta_cut and abs(event.dimuon_rapidity) < cuts.upsilon_rapidity_cut and abs(event.dz)<cuts.dz_cut and abs(event.muP_eta) < cuts.muon_eta_cut and abs(event.muM_eta) < cuts.muon_eta_cut and event.muP_pt > cuts.muon_pt_cut and event.muM_pt > cuts.muon_pt_cut and event.Y1S_nsigma<2.5 and event.probFit1S>0.02:
             ups_pt = event.Upsilon_p4.Pt()
             chib_pt = event.chib_p4.Pt()
             ups_dir, mu_dir = upsilonMuDirections(event.chib_p4, event.Upsilon_p4, event.muP_p4, frame)
